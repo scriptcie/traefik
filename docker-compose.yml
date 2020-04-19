@@ -2,7 +2,7 @@ version: '2'
 
 services:
   proxy:
-    image: traefik
+    image: traefik:v1.7.24
     command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG --docker.exposedbydefault=false
     networks:
       - webgateway
@@ -14,9 +14,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.toml:/traefik.toml
       - ./certs/:/certs/
-
-        
-        #      - /dev/null:/traefik.toml
 
 networks:
   webgateway:
