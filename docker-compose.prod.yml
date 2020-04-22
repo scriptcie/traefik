@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  proxy:
+    image: traefik:v1.7.24
+    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG --docker.exposedbydefault=false --configFile=/var/traefik/traefik.toml
+    networks:
+      - traefik-net
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $PWD/traefik.prod.toml:/var/traefik/traefik.toml
+      - $PWD/acme:/etc/acme
+    restart: always
+
+networks:
+  traefik-net:
+    driver: bridge
