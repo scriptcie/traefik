@@ -25,7 +25,7 @@ https://github.com/Heziode/traefik-v2-https-ssl-localhost/blob/master/README.md
 
 Run [`mkcert`](https://github.com/FiloSottile/mkcert) for your local certificates,
 #+begin_src sh
-mkcert -cert-file data/certs/local-cert.pem -key-file data/certs/local-key.pem "localhost" "*.localhost" "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+mkcert -cert-file data/certs/local-cert.pem -key-file data/certs/local-key.pem "localhost" "*.localhost" "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local" "traefik.localhost" "*.scriptcie.nl.localhost"
 #+end_src
 
 #+begin_src sh
