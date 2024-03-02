@@ -1,1 +1,60 @@
-https://www.grzegorowski.com/traefik-proxy-development-server-self-signed-ssl/
+* Treafik for crash & compile projects
+
+Since all our projects use docker compose as a way to develop and release our projects a natural reverse proxy to use is [traefik](https://doc.traefik.io/traefik/).
+
+This repo allows you to
+
+* Setting up traefik locally
+
+** Clone the repo
+
+#+begin_src sh
+git clone git@github.com:scriptcie/traefik.git
+#+end_src
+
+** Creating a docker network
+
+#+begin_src sh
+docker network create traefik-proxy
+#+end_src
+
+** Adding SSL certificates
+
+Inspired by:
+https://github.com/Heziode/traefik-v2-https-ssl-localhost/blob/master/README.md
+
+Run [`mkcert`](https://github.com/FiloSottile/mkcert) for your local certificates,
+#+begin_src sh
+mkcert -cert-file data/certs/local-cert.pem -key-file data/certs/local-key.pem "localhost" "*.localhost" "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+#+end_src
+
+#+begin_src sh
+traefik  master ✗ mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "localhost" "*.localhost" "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
+
+Created a new certificate valid for the following names 📜
+ - "localhost"
+ - "*.localhost"
+   Warning: many browsers don't support second-level wildcards like "*.localhost" ⚠️
+ - "docker.localhost"
+ - "*.docker.localhost"
+ - "domain.local"
+ - "*.domain.local"
+
+Reminder: X.509 wildcards only go one level deep, so this won't match a.b.localhost ℹ️
+
+The certificate is at "certs/local-cert.pem" and the key at "certs/local-key.pem" ✅
+
+It will expire on 2 June 2026 🗓
+#+end_src
+
+** Start traefik
+
+#+begin_src sh
+docker compose up -d traefik
+#+end_src
+
+** Check logs
+
+#+begin_src sh
+docker compose logs traefik -t -f --tail=100
+#+end_src

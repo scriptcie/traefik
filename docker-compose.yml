@@ -1,20 +1,29 @@
-version: '2'
+version: '3'
 
 services:
-  proxy:
-    image: traefik:v1.7.24
-    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG --docker.exposedbydefault=false
+  traefik:
+    image: traefik:v2.11
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     networks:
-      - webgateway
+      - traefik-proxy
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+    environment:
+      - "TRANSIP_ACCOUNT_NAME=markredenan"
+      - "TRANSIP_PRIVATE_KEY_PATH=/data/transip-key.txt"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.toml:/traefik.toml
-      - ./certs/:/certs/
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./data/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "./data/config.yml:/etc/traefik/config.yml:ro"
+      - "./data/certs:/etc/certs:ro"
+    labels:
+      - "traefik.enable=true"
 
 networks:
-  webgateway:
-    driver: bridge
+  traefik-proxy:
+    external: true
