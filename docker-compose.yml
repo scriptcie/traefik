@@ -12,9 +12,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      - "TRANSIP_ACCOUNT_NAME=markredenan"
-      - "TRANSIP_PRIVATE_KEY_PATH=/data/transip-key.txt"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
