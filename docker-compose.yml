@@ -20,6 +20,16 @@ services:
       - "./data/certs:/etc/certs:ro"
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http,https"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.scriptcie.nl.localhost`)"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      # Note: when used in docker-compose.yml all dollar signs in the hash need to be doubled for escaping.
+      # To create a user:password pair, the following command can be used:
+      # echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g
+      - "traefik.http.middlewares.auth.basicauth.users=scriptcie:$$2y$$05$$/QhVUzaG5Tvo1/TBou2kEOzVmEOkIAmivzSOrqaaxIw7LDXP3kp7S"
 
 networks:
   traefik-proxy:
