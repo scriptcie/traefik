@@ -12,7 +12,7 @@ This repo allows you to
 git clone git@github.com:scriptcie/traefik.git
 ```
 
-** Creating a docker network
+## Creating a docker network
 
 ```sh
 docker network create traefik-proxy
