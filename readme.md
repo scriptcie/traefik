@@ -23,7 +23,14 @@ docker network create traefik-proxy
 Inspired by:
 https://github.com/Heziode/traefik-v2-https-ssl-localhost/blob/master/README.md
 
-Run [`mkcert`](https://github.com/FiloSottile/mkcert) for your local certificates,
+First install [`mkcert`](https://github.com/FiloSottile/mkcert), and run its install command
+```sh
+mkcert -install
+```
+
+You may need to restart your browser(s) to have it take full effect.
+
+Next run [`mkcert`](https://github.com/FiloSottile/mkcert) for your local certificates,
 ```sh
 mkcert -cert-file data/certs/local-cert.pem -key-file data/certs/local-key.pem "localhost" "*.localhost" "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local" "traefik.localhost" "*.scriptcie.nl.localhost"
 ```
@@ -46,6 +53,8 @@ The certificate is at "certs/local-cert.pem" and the key at "certs/local-key.pem
 
 It will expire on 2 June 2026 🗓
 ```
+
+You should now have certificate that traefik can use to serve s[ck]rip(t|t?c)ie projects with ssl enabled.
 
 ## Start traefik
 
